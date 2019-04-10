@@ -289,22 +289,26 @@ int main (int argc, const char *argv []) {
                 printf ("PESQ Error. P.862.2 operation must use 16kHz sample rate\n");
                 exit (1);
             }
-            
-            strcpy (ref_info. file_name, ref_info. path_name);
-            if (strrchr (ref_info. file_name, '\\') != NULL) {
-                strcpy (ref_info. file_name, 1 + strrchr (ref_info. file_name, '\\'));
-            }
-            if (strrchr (ref_info. file_name, '/') != NULL) {
-                strcpy (ref_info. file_name, 1 + strrchr (ref_info. file_name, '/'));
-            }                
 
-            strcpy (deg_info. file_name, deg_info. path_name);
-            if (strrchr (deg_info. file_name, '\\') != NULL) {
-                strcpy (deg_info. file_name, 1 + strrchr (deg_info. file_name, '\\'));
+            char * file_name = NULL;
+            
+            file_name = ref_info. path_name;
+            if (strrchr (file_name, '\\') != NULL) {
+                file_name = 1 + strrchr (file_name, '\\');
             }
-            if (strrchr (deg_info. file_name, '/') != NULL) {
-                strcpy (deg_info. file_name, 1 + strrchr (deg_info. file_name, '/'));
-            }                
+            if (strrchr (file_name, '/') != NULL) {
+                file_name = 1 + strrchr (file_name, '/');
+            }
+            strcpy (ref_info. file_name, file_name);
+
+            file_name = deg_info. path_name;
+            if (strrchr (file_name, '\\') != NULL) {
+                file_name = 1 + strrchr (file_name, '\\');
+            }
+            if (strrchr (file_name, '/') != NULL) {
+                file_name = 1 + strrchr (file_name, '/');
+            }
+            strcpy (deg_info. file_name, file_name);             
 
             select_rate (sample_rate, &Error_Flag, &Error_Type);
             pesq_measure (&ref_info, &deg_info, &err_info, &Error_Flag, &Error_Type);
